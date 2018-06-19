@@ -1,4 +1,4 @@
-package delivery.food.mvvmdemo;
+package delivery.food.mvvmdemo.trending;
 
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;

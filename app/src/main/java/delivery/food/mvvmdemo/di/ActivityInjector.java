@@ -35,7 +35,7 @@ public class ActivityInjector {
         }
 
         //no activity object found
-        AndroidInjector.Factory<Activity> injectFactory=(AndroidInjector.Factory<Activity>) activityInjector.get(activity.getClass()).get();
+        AndroidInjector.Factory<Activity> injectFactory= (AndroidInjector.Factory<Activity>) activityInjector.get(activity.getClass()).get();
         AndroidInjector<Activity> injector=injectFactory.create(activity);
         cache.put(instanceId, injector);
         injector.inject(activity);

@@ -16,7 +16,7 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import delivery.food.mvvmdemo.Injector;
+import delivery.food.mvvmdemo.di.Injector;
 import delivery.food.mvvmdemo.R;
 import delivery.food.mvvmdemo.di.ScreenInjector;
 

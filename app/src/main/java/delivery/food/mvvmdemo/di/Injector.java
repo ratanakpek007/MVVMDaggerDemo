@@ -1,4 +1,4 @@
-package delivery.food.mvvmdemo;
+package delivery.food.mvvmdemo.di;
 
 import android.app.Activity;
 

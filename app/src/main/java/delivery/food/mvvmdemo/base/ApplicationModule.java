@@ -1,4 +1,4 @@
-package delivery.food.mvvmdemo;
+package delivery.food.mvvmdemo.base;
 
 import android.app.Application;
 import android.content.Context;
@@ -15,7 +15,7 @@ public class ApplicationModule {
     }
 
     @Provides
-    Context provideApplicaitonContext(){
+    Context provideApplicationContext(){
         return application;
     }
 }

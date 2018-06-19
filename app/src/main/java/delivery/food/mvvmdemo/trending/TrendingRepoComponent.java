@@ -1,8 +1,7 @@
-package delivery.food.mvvmdemo.controller;
+package delivery.food.mvvmdemo.trending;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
-import delivery.food.mvvmdemo.TrendingRepoController;
 import delivery.food.mvvmdemo.di.ScreenScope;
 
 @ScreenScope

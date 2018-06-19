@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.bluelinelabs.conductor.Controller;
 
-import delivery.food.mvvmdemo.Injector;
+import delivery.food.mvvmdemo.di.Injector;
 
 public abstract class BaseController extends Controller{
 
