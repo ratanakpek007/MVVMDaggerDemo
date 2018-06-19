@@ -16,9 +16,10 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import delivery.food.mvvmdemo.di.Injector;
 import delivery.food.mvvmdemo.R;
+import delivery.food.mvvmdemo.di.Injector;
 import delivery.food.mvvmdemo.di.ScreenInjector;
+import delivery.food.mvvmdemo.ui.ScreenNavigator;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -28,6 +29,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Inject
     ScreenInjector screenInjector;
+
+    @Inject
+    ScreenNavigator screenNavigator;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         router = Conductor.attachRouter(this, screenContainer, savedInstanceState);
-
+        screenNavigator.initWithRouter(router, initialScreen());
         monitorBackstack();
         super.onCreate(savedInstanceState);
     }
@@ -72,6 +76,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @LayoutRes
     protected abstract int layoutRes();
 
+    protected abstract Controller initialScreen();
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -86,6 +92,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        screenNavigator.clear();
         if (isFinishing()) {
             Injector.clearComponent(this);
         }
@@ -93,5 +100,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public ScreenInjector getScreenInjector() {
         return screenInjector;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!screenNavigator.pop()){
+            super.onBackPressed();
+        }
     }
 }

@@ -8,6 +8,7 @@ import delivery.food.mvvmdemo.base.ApplicationComponent;
 import delivery.food.mvvmdemo.base.ApplicationModule;
 import delivery.food.mvvmdemo.base.DaggerApplicationComponent;
 import delivery.food.mvvmdemo.di.ActivityInjector;
+import timber.log.Timber;
 
 
 public class MyApplication extends Application {
@@ -24,6 +25,10 @@ public class MyApplication extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .build();
         applicaitonComponent.inject(this);
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
     public ActivityInjector getActivityInjector() {
