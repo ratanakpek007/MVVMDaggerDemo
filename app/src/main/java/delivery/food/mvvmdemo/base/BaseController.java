@@ -6,9 +6,7 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.bluelinelabs.conductor.Controller;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import delivery.food.mvvmdemo.di.Injector;
@@ -22,14 +20,14 @@ public abstract class BaseController extends Controller{
     private boolean injected = false;
     private Unbinder unbinder;
 
-
     @Override
     protected void onContextAvailable(@NonNull Context context) {
-        if(injected){
+        // Controller instances are retained across config changes, so this method can be called more than once. This makes
+        // sure we don't waste any time injecting more than once, though technically it wouldn't change functionality.
+        if (!injected) {
             Injector.inject(this);
-            injected=true;
+            injected = true;
         }
-
         super.onContextAvailable(context);
     }
 

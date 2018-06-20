@@ -1,13 +1,10 @@
 package delivery.food.mvvmdemo.home;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import com.bluelinelabs.conductor.Controller;
 
 import delivery.food.mvvmdemo.R;
 import delivery.food.mvvmdemo.base.BaseActivity;
-import delivery.food.mvvmdemo.trending.TrendingRepoController;
+import delivery.food.mvvmdemo.trending.TrendingReposController;
 
 public class MainActivity extends BaseActivity {
 
@@ -19,6 +16,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected Controller initialScreen() {
-        return new TrendingRepoController();
+        return new TrendingReposController();
     }
 }

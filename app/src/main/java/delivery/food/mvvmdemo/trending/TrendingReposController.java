@@ -8,24 +8,20 @@ import android.widget.TextView;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-
 import delivery.food.mvvmdemo.R;
 import delivery.food.mvvmdemo.base.BaseController;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
-public class TrendingRepoController extends BaseController {
-    @Inject
-    TrendingReposPresenter presenter;
-    @Inject
-    TrendingReposViewModel viewModel;
+public class TrendingReposController extends BaseController {
+
+    @Inject TrendingReposPresenter presenter;
+    @Inject TrendingReposViewModel viewModel;
 
     @BindView(R.id.repo_list)
     RecyclerView repoList;
-    @BindView(R.id.loading_indicator)
-    View loadingView;
-    @BindView(R.id.tv_error)
-    TextView errorText;
+    @BindView(R.id.loading_indicator) View loadingView;
+    @BindView(R.id.tv_error) TextView errorText;
 
     @Override
     protected void onViewBound(View view) {
@@ -45,7 +41,7 @@ public class TrendingRepoController extends BaseController {
                 }),
                 viewModel.repos()
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(((RepoAdapter) repoList.getAdapter())::setData),
+                        .subscribe(((RepoAdapter)repoList.getAdapter())::setData),
                 viewModel.error()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(errorRes -> {
@@ -65,5 +61,4 @@ public class TrendingRepoController extends BaseController {
     protected int layoutRes() {
         return R.layout.screen_trending_repos;
     }
-
 }

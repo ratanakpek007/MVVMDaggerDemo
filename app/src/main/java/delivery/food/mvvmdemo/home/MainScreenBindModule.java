@@ -6,17 +6,17 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.android.AndroidInjector;
 import dagger.multibindings.IntoMap;
-import delivery.food.mvvmdemo.trending.TrendingRepoController;
-import delivery.food.mvvmdemo.trending.TrendingRepoComponent;
 import delivery.food.mvvmdemo.di.ControllerKey;
+import delivery.food.mvvmdemo.trending.TrendingReposComponent;
+import delivery.food.mvvmdemo.trending.TrendingReposController;
 
 @Module(subcomponents = {
-        TrendingRepoComponent.class
+        TrendingReposComponent.class
 })
 public abstract class MainScreenBindModule {
 
     @Binds
     @IntoMap
-    @ControllerKey(TrendingRepoController.class)
-    abstract AndroidInjector.Factory<? extends Controller> bindTrendingRepoInjector(TrendingRepoComponent.Builder builder);
+    @ControllerKey(TrendingReposController.class)
+    abstract AndroidInjector.Factory<? extends Controller> bindTrendingRepoInjector(TrendingReposComponent.Builder builder);
 }

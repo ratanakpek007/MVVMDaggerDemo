@@ -13,43 +13,45 @@ import dagger.android.AndroidInjector;
 import delivery.food.mvvmdemo.MyApplication;
 import delivery.food.mvvmdemo.base.BaseActivity;
 
+
 public class ActivityInjector {
 
-    private Map<Class<? extends Activity>, Provider<AndroidInjector.Factory<? extends Activity>>> activityInjector;
+    private final Map<Class<? extends Activity>, Provider<AndroidInjector.Factory<? extends Activity>>> activityInjectors;
     private final Map<String, AndroidInjector<? extends Activity>> cache = new HashMap<>();
 
     @Inject
-    ActivityInjector(Map<Class<? extends Activity>, Provider<AndroidInjector.Factory<? extends Activity>>> activityInjector) {
-        this.activityInjector = activityInjector;
+    ActivityInjector(Map<Class<? extends Activity>, Provider<AndroidInjector.Factory<? extends Activity>>> activityInjectors) {
+        this.activityInjectors = activityInjectors;
     }
 
-    public void inject(Activity activity){
-        if(!(activity instanceof BaseActivity)){
-            throw new IllegalArgumentException("Activity must extends from base Activity!!!");
+    void inject(Activity activity) {
+        if (!(activity instanceof BaseActivity)) {
+            throw new IllegalArgumentException("Activity must extend BaseActivity");
         }
 
-        String instanceId= ((BaseActivity) activity).getInstanceId();
-        if(cache.containsKey(instanceId)){
-            ((AndroidInjector<Activity>)cache.get(instanceId)).inject(activity);
+        String instanceId = ((BaseActivity) activity).getInstanceId();
+        if (cache.containsKey(instanceId)) {
+            //noinspection unchecked
+            ((AndroidInjector<Activity>) cache.get(instanceId)).inject(activity);
             return;
         }
 
-        //no activity object found
-        AndroidInjector.Factory<Activity> injectFactory= (AndroidInjector.Factory<Activity>) activityInjector.get(activity.getClass()).get();
-        AndroidInjector<Activity> injector=injectFactory.create(activity);
+        //noinspection unchecked
+        AndroidInjector.Factory<Activity> injectorFactory =
+                (AndroidInjector.Factory<Activity>) activityInjectors.get(activity.getClass()).get();
+        AndroidInjector<Activity> injector = injectorFactory.create(activity);
         cache.put(instanceId, injector);
         injector.inject(activity);
     }
-    public void clear(Activity activity){
-        if(!(activity instanceof BaseActivity)){
-            throw new IllegalArgumentException("Activity must extends from base Activity!!!");
+
+    void clear(Activity activity) {
+        if (!(activity instanceof BaseActivity)) {
+            throw new IllegalArgumentException("Activity must extend BaseActivity");
         }
         cache.remove(((BaseActivity) activity).getInstanceId());
     }
 
-    public static ActivityInjector get(Context context){
-       return ((MyApplication)context.getApplicationContext()).getActivityInjector();
+    static ActivityInjector get(Context context) {
+        return ((MyApplication) context.getApplicationContext()).getActivityInjector();
     }
-
-
 }

@@ -10,7 +10,7 @@ import delivery.food.mvvmdemo.ui.NavigationModule;
 @ActivityScope
 @Subcomponent(modules = {
         MainScreenBindModule.class,
-        NavigationModule.class,
+        NavigationModule.class
 
 })
 public interface MainActivityComponent extends AndroidInjector<MainActivity> {

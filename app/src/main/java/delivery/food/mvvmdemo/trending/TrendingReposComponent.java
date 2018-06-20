@@ -4,14 +4,13 @@ import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 import delivery.food.mvvmdemo.di.ScreenScope;
 
+
 @ScreenScope
 @Subcomponent
-public interface TrendingRepoComponent extends AndroidInjector<TrendingRepoController> {
+public interface TrendingReposComponent extends AndroidInjector<TrendingReposController> {
 
     @Subcomponent.Builder
-    abstract class Builder extends AndroidInjector.Builder<TrendingRepoController>{
+    abstract class Builder extends AndroidInjector.Builder<TrendingReposController> {
 
     }
-
-
 }

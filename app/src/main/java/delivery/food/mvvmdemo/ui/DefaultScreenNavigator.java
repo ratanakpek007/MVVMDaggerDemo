@@ -6,8 +6,10 @@ import com.bluelinelabs.conductor.RouterTransaction;
 
 import javax.inject.Inject;
 
-public class DefaultScreenNavigator implements ScreenNavigator {
+import delivery.food.mvvmdemo.di.ActivityScope;
 
+@ActivityScope
+public class DefaultScreenNavigator implements ScreenNavigator {
 
     private Router router;
 
@@ -17,20 +19,20 @@ public class DefaultScreenNavigator implements ScreenNavigator {
     }
 
     @Override
-    public void initWithRouter(Router router, Controller controller) {
+    public void initWithRouter(Router router, Controller rootScreen) {
         this.router = router;
         if (!router.hasRootController()) {
-            router.setRoot(RouterTransaction.with(controller));
+            router.setRoot(RouterTransaction.with(rootScreen));
         }
     }
 
     @Override
-    public void clear() {
-
+    public boolean pop() {
+        return router != null && router.handleBack();
     }
 
     @Override
-    public boolean pop() {
-        return router != null & router.handleBack();
+    public void clear() {
+        router = null;
     }
 }

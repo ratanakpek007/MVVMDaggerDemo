@@ -14,39 +14,45 @@ import dagger.android.AndroidInjector;
 import delivery.food.mvvmdemo.base.BaseActivity;
 import delivery.food.mvvmdemo.base.BaseController;
 
+
 @ActivityScope
 public class ScreenInjector {
 
-    private Map<Class<? extends Controller>, Provider<AndroidInjector.Factory<? extends Controller>>> screenInjector;
-
+    private final Map<Class<? extends Controller>, Provider<AndroidInjector.Factory<? extends Controller>>> screenInjectors;
     private final Map<String, AndroidInjector<Controller>> cache = new HashMap<>();
 
     @Inject
-    ScreenInjector(Map<Class<? extends Controller>, Provider<AndroidInjector.Factory<? extends Controller>>> screenInjector) {
-        this.screenInjector = screenInjector;
+    ScreenInjector(Map<Class<? extends Controller>, Provider<AndroidInjector.Factory<? extends Controller>>> screenInjectors) {
+        this.screenInjectors = screenInjectors;
     }
 
-    public void inject(Controller controller) {
+    void inject(Controller controller) {
         if (!(controller instanceof BaseController)) {
-            throw new IllegalArgumentException("Must extends to Base Controller!");
+            throw new IllegalArgumentException("Controller must extend BaseController");
         }
+
         String instanceId = controller.getInstanceId();
         if (cache.containsKey(instanceId)) {
             cache.get(instanceId).inject(controller);
             return;
         }
-        AndroidInjector.Factory<Controller> injectorFacotry = (AndroidInjector.Factory<Controller>) screenInjector.get(controller.getClass()).get();
-        AndroidInjector<Controller> injector = injectorFacotry.create(controller);
+
+        //noinspection unchecked
+        AndroidInjector.Factory<Controller> injectorFactory =
+                (AndroidInjector.Factory<Controller>) screenInjectors.get(controller.getClass()).get();
+        AndroidInjector<Controller> injector = injectorFactory.create(controller);
         cache.put(instanceId, injector);
         injector.inject(controller);
     }
-    public void clear(Controller controller){
+
+    void clear(Controller controller) {
         cache.remove(controller.getInstanceId());
     }
-    public static ScreenInjector get(Activity activity){
-        if(!(activity instanceof BaseActivity)){
-            throw  new IllegalArgumentException("Controller must be hosted by BaseActivity!");
+
+    static ScreenInjector get(Activity activity) {
+        if (!(activity instanceof BaseActivity)) {
+            throw new IllegalArgumentException("Controller must be hosted by BaseActivity");
         }
-        return ((BaseActivity)activity).getScreenInjector();
+        return ((BaseActivity) activity).getScreenInjector();
     }
 }
